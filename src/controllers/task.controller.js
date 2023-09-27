@@ -56,3 +56,10 @@ const deleteTask = async (req, res) => {
     console.log(error);
   }
 };
+
+export {
+  getTasks,
+  saveTask,
+  updateTask,
+  deleteTask
+}

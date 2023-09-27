@@ -7,19 +7,21 @@ const getTasks = async (req, res) => {
 };
 
 const saveTask = async (req, res) => {
-  try {
-    const task = new Task(req.body);
-    const newTask = await Task.create(task);
-    res.json({ body: newTask, created: "OK" });
-  } catch (error) {
-    console.log(error);
-  }
+  const { title, description } = req.body;
+
+  const newTask = new Task({
+    title,
+    description
+  });
+
+  const task = await newTask.save();
+  res.json({ body: task, created: "OK" });
 };
 
 const updateTask = async (req, res) => {
-  const { id } = req.params;
-
-  const task = Task.findById(id);
+  const task = await Task.findByIdAndUpdate(req.params.id, req.params.body, {
+    new: true,
+  });
 
   // Verify if the task existed
   if (!task) {
@@ -27,39 +29,18 @@ const updateTask = async (req, res) => {
     return res.status(404).json({ mgs: error.message, ok: "NO" });
   }
 
-  // Obtain form data
-  task.title = req.body.title || task.title;
-  task.description = req.body.description || task.description;
-
-  try {
-    const savedTask = await Task.updateOne(task);
-    res.json({ bady: saveTask, ok: "YES" });
-  } catch (error) {
-    console.log(error);
-  }
+  res.json({ body: saveTask, ok: "YES" });
 };
 
 const deleteTask = async (req, res) => {
-  const { id } = req.params;
-
-  const task = Task.findById(id);
+  const task = await Task.findByIdAndDelete(req.params.id);
 
   if (!task) {
     const error = new Error("Tarea no encontrada");
     return res.status(404).json({ msg: error.message, ok: "NO" });
   }
 
-  try {
-    await task.deleteOne();
-    return res.json({ msg: "Tarea eliminada", ok: "YES" });
-  } catch (error) {
-    console.log(error);
-  }
+  res.json({ msg: "Tarea eliminada", ok: "YES" });
 };
 
-export {
-  getTasks,
-  saveTask,
-  updateTask,
-  deleteTask
-}
+export { getTasks, saveTask, updateTask, deleteTask };

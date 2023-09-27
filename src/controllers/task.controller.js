@@ -19,7 +19,7 @@ const saveTask = async (req, res) => {
 };
 
 const updateTask = async (req, res) => {
-  const task = await Task.findByIdAndUpdate(req.params.id, req.params.body, {
+  const task = await Task.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
   });
 

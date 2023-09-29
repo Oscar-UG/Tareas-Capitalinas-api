@@ -4,7 +4,9 @@ export const authenticateUser = (req, res, next) => {
   const token = req.header("x-auth-token");
 
   if (!token) {
-    return res.status(401).json({ message: "Acceso denegado. Token no proporcionado." });
+    return res
+      .status(401)
+      .json({ message: "Acceso denegado. Token no proporcionado." });
   }
 
   try {

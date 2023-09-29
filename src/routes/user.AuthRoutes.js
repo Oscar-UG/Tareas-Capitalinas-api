@@ -5,15 +5,22 @@ import {
   getUserById,
   deleteUser,
   updateUser,
+  loginUser,
 } from "../controllers/user.controller.js";
+import { authenticateUser } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-// Ruta para registrar un nuevo usuario
+// CRUD
 router.post("/register", registerUser);
 router.get("/users", getAllUsers);
-router.get("/users/:userId", getUserById)
-router.put("/users/:userId", updateUser)
-router.delete("/users/:userId", deleteUser)
+router.get("/users/:userId", getUserById);
+router.put("/users/:userId", updateUser);
+router.delete("/users/:userId", deleteUser);
+
+//Login
+router.post("/login", loginUser);
+
+
 
 export default router;

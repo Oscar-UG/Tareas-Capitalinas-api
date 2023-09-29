@@ -1,6 +1,6 @@
 import UserModel from "../models/user.model.js";
 import jwt from "jsonwebtoken";
-
+import bcrypt from "bcrypt";
 // Función para registrar un nuevo usuario
 export const registerUser = async (req, res) => {
   const { username, password } = req.body;
@@ -12,12 +12,17 @@ export const registerUser = async (req, res) => {
       return res.status(400).json({ message: "El usuario ya existe." });
     }
 
+    // Hashear la contraseña antes de almacenarla
+    const hashedPassword = await bcrypt.hash(password, 10); // El segundo argumento es el número de rondas de hashing
+
+
     // Crear un nuevo usuario
-    const newUser = new UserModel({ 
-        username, 
-        password 
+    const newUser = new UserModel({
+      username,
+      password: hashedPassword,
     });
-    
+
+
     await newUser.save();
     console.log("Usuario registrado con éxito:", newUser);
     // Generar un token JWT para el usuario registrado
@@ -93,11 +98,40 @@ export const deleteUser = async (req, res) => {
       return res.status(404).json({ message: "Usuario no encontrado." });
     }
 
-    
-
     res.status(200).json({ message: "Usuario eliminado con éxito." });
   } catch (error) {
     console.error("Error al eliminar usuario por ID:", error);
     res.status(500).json({ message: "Error al eliminar usuario por ID." });
+  }
+};
+
+// Función para iniciar sesión de usuario
+export const loginUser = async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    // Verificar si el usuario existe
+    const user = await UserModel.findOne({ username });
+
+    if (!user) {
+      return res.status(401).json({ message: "Credenciales incorrectas." });
+    }
+
+      // Verificar la contraseña usando bcrypt.compare
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+
+      if (!isPasswordValid) {
+        return res.status(401).json({ message: "Credenciales incorrectas." });
+      }
+    
+    // Generar un token JWT para el usuario autenticado
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    res.status(200).json({ token });
+  } catch (error) {
+    console.error("Error al iniciar sesión:", error);
+    res.status(500).json({ message: "Error al iniciar sesión." });
   }
 };

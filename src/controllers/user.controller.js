@@ -31,3 +31,73 @@ export const registerUser = async (req, res) => {
     res.status(500).json({ message: "Error al registrar al usuario." });
   }
 };
+
+// Función para obtener todos los usuarios
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await UserModel.find({});
+    res.status(200).json(users);
+  } catch (error) {
+    console.error("Error al obtener usuarios:", error);
+    res.status(500).json({ message: "Error al obtener usuarios." });
+  }
+};
+
+// Función para obtener un usuario por ID
+export const getUserById = async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado." });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error("Error al obtener usuario por ID:", error);
+    res.status(500).json({ message: "Error al obtener usuario por ID." });
+  }
+};
+
+// Función para actualizar un usuario por ID
+export const updateUser = async (req, res) => {
+  const userId = req.params.userId;
+  const { username, password } = req.body;
+
+  try {
+    const user = await UserModel.findByIdAndUpdate(userId);
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado." });
+    }
+
+    user.username = username;
+    user.password = password;
+
+    await user.save();
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error("Error al actualizar usuario por ID:", error);
+    res.status(500).json({ message: "Error al actualizar usuario por ID." });
+  }
+};
+
+// Función para eliminar un usuario por ID
+export const deleteUser = async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    const user = await UserModel.findByIdAndDelete(userId);
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado." });
+    }
+
+    
+
+    res.status(200).json({ message: "Usuario eliminado con éxito." });
+  } catch (error) {
+    console.error("Error al eliminar usuario por ID:", error);
+    res.status(500).json({ message: "Error al eliminar usuario por ID." });
+  }
+};

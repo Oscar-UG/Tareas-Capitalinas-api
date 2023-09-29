@@ -5,6 +5,7 @@ const conectarDB = async () => {
     const connection = await mongoose.connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      dbName: 'tareas_capitalinas'
     });
 
     const url = `${connection.connection.host}:${connection.connection.port}`;

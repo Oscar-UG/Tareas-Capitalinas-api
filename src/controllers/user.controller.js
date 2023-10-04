@@ -129,7 +129,12 @@ export const loginUser = async (req, res) => {
       expiresIn: "1h",
     });
 
-    res.status(200).json({ token });
+    res.cookie('token', token );
+    res.json({
+      name: user.username,
+      createdAt: user.createdAt,
+      udpateAt: user.updatedAt
+  });
   } catch (error) {
     console.error("Error al iniciar sesión:", error);
     res.status(500).json({ message: "Error al iniciar sesión." });

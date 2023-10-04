@@ -11,7 +11,8 @@ const saveTask = async (req, res) => {
 
   const newTask = new Task({
     title,
-    description
+    description,
+    user: req.user.id
   });
 
   const task = await newTask.save();

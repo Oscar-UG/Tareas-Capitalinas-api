@@ -1,7 +1,9 @@
 import List from "../models/list.model.js";
 
 const getList = async (req, res) => {
-  const lists = await List.find();
+  const lists = await List.find({
+    user: req.userId,
+  });
   res.json(lists);
 };
 
@@ -10,6 +12,7 @@ const saveList = async (req, res) => {
 
   const newList = new List({
     title,
+    user: req.userId,
   });
 
   const list = await newList.save();

@@ -17,13 +17,13 @@ import {
 const router = express.Router();
 
 // CRUD
-router.post("/register", validateSchema(registerUser), registerUser);
+router.post("/register", validateSchema(registerValidator), registerUser);
 router.get("/users", getAllUsers);
 router.get("/users/:userId", getUserById);
 router.put("/users/:userId", updateUser);
 router.delete("/users/:userId", deleteUser);
 
 //Login
-router.post("/login", validateSchema(loginUser), loginUser);
+router.post("/login", validateSchema(loginValidator), loginUser);
 
 export default router;

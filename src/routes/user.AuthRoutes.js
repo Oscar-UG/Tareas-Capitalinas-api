@@ -6,6 +6,7 @@ import {
   deleteUser,
   updateUser,
   loginUser,
+  logout,
 } from "../controllers/user.controller.js";
 import { authenticateUser } from "../middlewares/authMiddleware.js";
 import { validateSchema } from "../middlewares/validator.middleware.js";
@@ -25,5 +26,6 @@ router.delete("/users/:userId", deleteUser);
 
 //Login
 router.post("/login", validateSchema(loginValidator), loginUser);
+router.post("/logout", logout);
 
 export default router;

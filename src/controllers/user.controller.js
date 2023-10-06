@@ -140,3 +140,10 @@ export const loginUser = async (req, res) => {
     res.status(500).json({ message: "Error al iniciar sesión." });
   }
 };
+
+export const logout = async (req, res) => {
+  res.cookie("token", "", {
+    expires: new Date(0)
+  });
+  res.sendStatus(200);
+};

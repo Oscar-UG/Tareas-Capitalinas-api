@@ -14,7 +14,6 @@ const saveTask = async (req, res) => {
 
   const list = await List.findOne({ _id: listId, user: req.userId });
   if (!list) {
-    console.log(`Lista con _id ${listId} no encontrada o no autorizada para el usuario ${req.userId}`);
     return res
       .status(404)
       .json({ msg: "Lista no encontrada o no autorizada." });

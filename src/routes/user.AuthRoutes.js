@@ -7,6 +7,7 @@ import {
   updateUser,
   loginUser,
   logout,
+  verify,
 } from "../controllers/user.controller.js";
 import { authenticateUser } from "../middlewares/authMiddleware.js";
 import { validateSchema } from "../middlewares/validator.middleware.js";
@@ -27,5 +28,7 @@ router.delete("/users/:userId", deleteUser);
 //Login
 router.post("/login", validateSchema(loginValidator), loginUser);
 router.post("/logout", logout);
+
+router.get("/verify", verify);
 
 export default router;

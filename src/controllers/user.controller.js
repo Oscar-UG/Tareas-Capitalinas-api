@@ -9,7 +9,7 @@ export const registerUser = async (req, res) => {
     // Verificar si el usuario ya existe
     const existingUser = await UserModel.findOne({ username });
     if (existingUser) {
-      return res.status(400).json({ message: "El usuario ya existe." });
+      return res.status(400).json(["El usuario ya existe."]);
     }
 
     // Hashear la contraseña antes de almacenarla
@@ -114,14 +114,14 @@ export const loginUser = async (req, res) => {
     const user = await UserModel.findOne({ username });
 
     if (!user) {
-      return res.status(401).json({ message: "Credenciales incorrectas." });
+      return res.status(401).json(["Credenciales incorrectas."]);
     }
 
       // Verificar la contraseña usando bcrypt.compare
       const isPasswordValid = await bcrypt.compare(password, user.password);
 
       if (!isPasswordValid) {
-        return res.status(401).json({ message: "Credenciales incorrectas." });
+        return res.status(401).json(["Credenciales incorrectas."]);
       }
     
     // Generar un token JWT para el usuario autenticado
@@ -147,3 +147,22 @@ export const logout = async (req, res) => {
   });
   res.sendStatus(200);
 };
+
+export const verify = async (req, res) => {
+  const {token} = req.cookies;
+
+  if (!token) return res.status(401).json({ message: "No autorizado 1" });
+
+  jwt.verify(token, process.env.JWT_SECRET, async (err, user) => {
+    if (err) return res.status(401).json({ message: "No autorizado 2" });
+
+    const userFound = await UserModel.findOne(user.id);
+
+    if (!user) return res.status(401).json({ message: "No autorizado 3" });
+
+    return res.json({
+      id: userFound._id,
+      username: userFound.username,
+    });
+  })
+}

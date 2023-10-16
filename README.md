@@ -1,10 +1,7 @@
-# API de Lista de Tareas (To-Do List)
+# Tareas Capitalinas(To-Do List)
 
 Esta API sirve como backend para una aplicación de lista de tareas (To-Do List). Permite a los usuarios administrar sus listas de tareas, tareas individuales y la gestión de usuarios. La API está construida en Node.js y utiliza MongoDB como base de datos.
 
-## Licencia
-
-Este proyecto está bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENCE.txt) para obtener más detalles.
 
 ## Instalación de Node Modules
 
@@ -115,10 +112,13 @@ Si deseas contribuir a este proyecto, ¡estamos abiertos a colaboraciones! Por f
 
 ## Contacto
 
-Si tienes preguntas o necesitas ayuda, no dudes en contactarnos a través de [jmoya396@gmail.com].
+Si tienes preguntas o necesitas ayuda, no dudes en contactarnos a través de whatsapp [+573117592121]
 
----
 
 [¡Visita nuestro sitio web!](https://jhoseb29.github.io/Jose-Moya/)
-```
+
+
+## Licencia
+
+Este proyecto está bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENCE.txt) para obtener más detalles.
 
